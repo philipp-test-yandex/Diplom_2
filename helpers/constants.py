@@ -7,5 +7,3 @@ MISSING_REQUIRED_FIELDS = "Email, password and name are required fields"
 LOGIN_ERROR_MESSAGE = "email or password are incorrect"
 
 UNAUTHORIZED_ERROR_MESSAGE = "You should be authorised"
-
-

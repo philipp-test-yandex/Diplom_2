@@ -3,25 +3,23 @@ from helpers.constants import *
 from conftest import *
 
 
-
 class TestUserLogin:
     @allure.title("Логин под существующим пользователем")
-    def test_login_success(self, new_user):
-        requests.post(f"{BASE_URL}/auth/register", json=new_user)
+    def test_login_success(self, registered_user):
+        user, _ = registered_user
 
         with allure.step("Отправляем POST запрос на логин"):
-            response = requests.post(f"{BASE_URL}/auth/login", json=new_user)
+            response = requests.post(f"{BASE_URL}/auth/login", json=user)
 
         with allure.step("Проверяем статус и токен"):
             assert response.status_code == 200
             assert response.json()["success"] is True
             assert "accessToken" in response.json()
 
-
     @allure.title("Логин с неверными данными")
     @pytest.mark.parametrize("email, password", [
         ("wrongemail@test.com", "Test123"),
-        ("", "Test123"),  # пустой email
+        ("", "Test123"),
         ("user@test.com", "wrongpass"),
         ("user@test.com", ""),
     ])

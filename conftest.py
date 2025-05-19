@@ -1,32 +1,36 @@
 import pytest
 import requests
+import random
 from helpers.constants import BASE_URL
+from helpers.data import DEFAULT_PASSWORD, DEFAULT_NAME
+
+
+def generate_unique_email():
+    return f"user{random.randint(100000, 999999)}@test.com"
+
 
 @pytest.fixture
 def new_user():
     user = {
         "email": generate_unique_email(),
-        "password": "Test123",
-        "name": "Test User"
+        "password": DEFAULT_PASSWORD,
+        "name": DEFAULT_NAME
     }
     yield user
+
     token_resp = requests.post(f"{BASE_URL}/auth/login", json=user)
     if token_resp.ok:
         token = token_resp.json()["accessToken"]
         headers = {"Authorization": token}
         requests.delete(f"{BASE_URL}/auth/user", headers=headers)
 
-counter = 0
-def generate_unique_email():
-    global counter
-    counter += 1
-    return f"user{counter}@test.com"
-
 
 @pytest.fixture
 def registered_user(new_user):
     response = requests.post(f"{BASE_URL}/auth/register", json=new_user)
+    assert response.status_code == 200, "Регистрация не удалась"
     token = response.json()["accessToken"]
+
     yield new_user, token
 
     headers = {"Authorization": token}

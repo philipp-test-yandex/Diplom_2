@@ -1,0 +1,3 @@
+
+DEFAULT_PASSWORD = "Test123"
+DEFAULT_NAME = "Test User"

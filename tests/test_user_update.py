@@ -3,8 +3,6 @@ from helpers.constants import *
 from conftest import *
 
 
-
-
 class TestUserUpdate:
     @allure.title("Изменение имени пользователя с авторизацией")
     def test_update_name_authorized(self, registered_user):

@@ -1,12 +1,9 @@
 import pytest
 import requests
-import random
 from helpers.constants import BASE_URL
 from helpers.data import DEFAULT_PASSWORD, DEFAULT_NAME
+from helpers.utils import generate_unique_email
 
-
-def generate_unique_email():
-    return f"user{random.randint(100000, 999999)}@test.com"
 
 
 @pytest.fixture
